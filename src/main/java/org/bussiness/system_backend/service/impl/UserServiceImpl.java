@@ -1,7 +1,11 @@
-package org.bussiness.system_backend.service;
+package org.bussiness.system_backend.service.impl;
 
-import org.bussiness.system_backend.mapper.UserMapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.bussiness.system_backend.constants.JwtUtil;
 import org.bussiness.system_backend.entity.User;
+import org.bussiness.system_backend.exception.BusinessException;
+import org.bussiness.system_backend.mapper.UserMapper;
+import org.bussiness.system_backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,15 +13,13 @@ import org.springframework.util.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
     @Autowired
-    private UserMapper userDao;
+    private UserMapper userMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -25,24 +27,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, Object> login(String username, String password) {
         if (!StringUtils.hasText(username) || !StringUtils.hasText(password)) {
-            throw new IllegalArgumentException("用户名或密码不能为空");
+            throw new BusinessException("用户名或密码不能为空");
         }
 
         String normalizedUsername = username.trim();
-        User user = userDao.findByUsername(normalizedUsername);
+        User user = userMapper.findByUsername(normalizedUsername);
         if (user == null) {
-            throw new SecurityException("用户不存在");
+            throw new BusinessException("用户不存在");
         }
 
-        if ("1".equals(user.getIsDelete())) {
-            throw new SecurityException("用户已被禁用");
+        if (Integer.valueOf(1).equals(user.getIsDelete())) {
+            throw new BusinessException("用户已被禁用");
         }
 
         if (!isPasswordValid(password, user.getPassword())) {
-            throw new SecurityException("密码错误");
+            throw new BusinessException("密码错误");
         }
 
-        String token = generateToken(user);
+        String token = JwtUtil.generateToken(username);
 
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("id", user.getId());
@@ -65,11 +67,6 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             return rawPassword.equals(storedPassword);
         }
-    }
-
-    private String generateToken(User user) {
-        String raw = user.getId() + ":" + user.getUsername() + ":" + System.currentTimeMillis() + ":" + UUID.randomUUID();
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(raw.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override

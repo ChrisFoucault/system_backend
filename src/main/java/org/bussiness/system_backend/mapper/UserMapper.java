@@ -1,50 +1,20 @@
 package org.bussiness.system_backend.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import org.bussiness.system_backend.entity.User;
 
+import java.util.List;
+
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<User> {
 
-    @Select("""
-        SELECT id, username, password, real_name, create_time, is_delete
-        FROM sys_user
-        WHERE username = #{username}
-        LIMIT 1
-        """)
-    @Results(id = "userMap", value = {
-        @Result(column = "id", property = "id"),
-        @Result(column = "username", property = "username"),
-        @Result(column = "password", property = "password"),
-        @Result(column = "real_name", property = "realName"),
-        @Result(column = "create_time", property = "createTime"),
-        @Result(column = "is_delete", property = "isDelete")
-    })
+    /**
+     * 根据用户名查询用户
+     * @param username 用户名
+     * @return 用户对象，如果不存在则返回 null
+     */
+    @Results(id = "userMap")
+    @Select("SELECT * FROM a_user WHERE username = #{username}")
     User findByUsername(@Param("username") String username);
-
-    @Insert("""
-        INSERT INTO sys_user(username, password, real_name, create_time, is_delete)
-        VALUES(#{username}, #{password}, #{realName}, #{createTime}, #{isDelete})
-        """)
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    int insert(User user);
-
-    @Update("""
-        UPDATE sys_user
-        SET username = #{username},
-            password = #{password},
-            real_name = #{realName},
-            is_delete = #{isDelete}
-        WHERE id = #{id}
-        """)
-    int updateById(User user);
-
-    default void save(User user) {
-        if (user == null) return;
-        if (user.getId() == null) {
-            insert(user);
-        } else {
-            updateById(user);
-        }
-    }
 }

@@ -3,18 +3,17 @@ package org.bussiness.system_backend.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Singular;
 
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Role {
+
     private Integer id;
-    private String username;
-    private String password;
-    private String realName;
+    private String name;
     private LocalDateTime createTime;
     private Integer isDelete;
+
 }
