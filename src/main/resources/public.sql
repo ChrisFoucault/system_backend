@@ -12,7 +12,7 @@
  Target Server Version : 180003 (180003)
  File Encoding         : 65001
 
- Date: 08/03/2026 23:06:09
+ Date: 11/03/2026 00:00:15
 */
 
 
@@ -42,19 +42,26 @@ CREATE TABLE "public"."a_menu" (
   "create_time" timestamp(0) NOT NULL,
   "code" varchar(100) COLLATE "pg_catalog"."default" NOT NULL,
   "is_deleted" int2 NOT NULL DEFAULT 0,
-  "menu_type" int2 NOT NULL
+  "menu_type" int2 NOT NULL,
+  "parent_id" int4
 )
 ;
 COMMENT ON COLUMN "public"."a_menu"."name" IS '菜单名';
 COMMENT ON COLUMN "public"."a_menu"."menu_type" IS '菜单类型';
+COMMENT ON COLUMN "public"."a_menu"."parent_id" IS '父级菜单';
 
 -- ----------------------------
 -- Records of a_menu
 -- ----------------------------
-INSERT INTO "public"."a_menu" VALUES (1, '采购管理', '2026-03-08 00:11:01', 'PUTCHASE_MANAGE', 0, 1);
-INSERT INTO "public"."a_menu" VALUES (2, '库存管理', '2026-03-08 00:17:52', 'INVENTORY_MANAGE', 0, 1);
-INSERT INTO "public"."a_menu" VALUES (3, '销售管理', '2026-03-08 00:19:34', 'SALE_MANAGE', 0, 1);
-INSERT INTO "public"."a_menu" VALUES (4, '财务管理', '2026-03-08 00:21:36', 'FINANCE_MANAGE', 0, 1);
+INSERT INTO "public"."a_menu" VALUES (1, '采购管理', '2026-03-08 00:11:01', 'PUTCHASE_MANAGE', 0, 1, NULL);
+INSERT INTO "public"."a_menu" VALUES (2, '库存管理', '2026-03-08 00:17:52', 'INVENTORY_MANAGE', 0, 1, NULL);
+INSERT INTO "public"."a_menu" VALUES (3, '销售管理', '2026-03-08 00:19:34', 'SALE_MANAGE', 0, 1, NULL);
+INSERT INTO "public"."a_menu" VALUES (4, '财务管理', '2026-03-08 00:21:36', 'FINANCE_MANAGE', 0, 1, NULL);
+INSERT INTO "public"."a_menu" VALUES (5, '设置', '2026-03-10 22:09:33', 'SETTING', 0, 1, NULL);
+INSERT INTO "public"."a_menu" VALUES (6, '组织机构管理', '2026-03-10 22:10:03', 'ORG_MANAGE', 0, 2, 5);
+INSERT INTO "public"."a_menu" VALUES (7, '权限管理', '2026-03-10 22:10:51', 'PERMISSION_MANAGE', 0, 2, 5);
+INSERT INTO "public"."a_menu" VALUES (8, '基础类型管理', '2026-03-10 22:20:03', 'TYPE_MANAGE', 0, 2, 5);
+INSERT INTO "public"."a_menu" VALUES (9, '系统基础设置', '2026-03-10 22:20:47', 'BASE_SETTING', 0, 2, 5);
 
 -- ----------------------------
 -- Table structure for a_role
