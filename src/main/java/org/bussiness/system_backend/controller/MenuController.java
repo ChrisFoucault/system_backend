@@ -21,4 +21,9 @@ public class MenuController {
         return menuService.list();
     }
 
+    @GetMapping("/tree")
+    public List<Menu> getMenuTree() {
+        return menuService.list();
+    }
+
 }

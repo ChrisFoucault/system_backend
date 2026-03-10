@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import org.bussiness.system_backend.entity.User;
 
-import java.util.List;
-
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 

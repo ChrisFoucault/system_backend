@@ -12,8 +12,11 @@ import java.time.LocalDateTime;
 public class Goods {
 
     private Integer id;
+
     private String name;
+
     private LocalDateTime createTime;
+
     private Integer isDelete;
 
 }
