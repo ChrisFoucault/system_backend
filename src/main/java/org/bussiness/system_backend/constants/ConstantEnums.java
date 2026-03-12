@@ -33,4 +33,18 @@ public class ConstantEnums {
         }
     }
 
+    public enum UserStatus{
+        正常(1),禁用(0);
+
+        private final int value;
+
+        UserStatus(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
 }

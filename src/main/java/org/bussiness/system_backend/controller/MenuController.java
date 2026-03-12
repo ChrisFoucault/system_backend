@@ -1,5 +1,7 @@
 package org.bussiness.system_backend.controller;
 
+import cn.hutool.core.lang.tree.Tree;
+import org.bussiness.system_backend.VO.MenuVO;
 import org.bussiness.system_backend.entity.Menu;
 import org.bussiness.system_backend.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +18,9 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
-    @GetMapping("/list")
-    public List<Menu> list() {
-        return menuService.list();
-    }
-
     @GetMapping("/tree")
-    public List<Menu> getMenuTree() {
-        return menuService.list();
+    public List<Tree<Integer>> getMenuTree() {
+        return menuService.getMenuTree();
     }
 
 }

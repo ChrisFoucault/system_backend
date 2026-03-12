@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@TableName("a_menu")
 public class Menu {
 
     private Integer id;
@@ -25,5 +26,7 @@ public class Menu {
     private Integer isDeleted;
 
     private Integer menuType;
+
+    private String url;
 
 }
